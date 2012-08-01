@@ -3,7 +3,7 @@
 import serial, re, time, csv, os, sys
 from datetime import datetime
 
-# There should be a try here, see pyserial doc
+# Exception Handling doens't seem to work.
 try:
     connection = serial.Serial(port = '/dev/ttyUSB0',
                            baudrate = 57600,
