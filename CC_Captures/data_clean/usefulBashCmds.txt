@@ -1,0 +1,9 @@
+# move all files recorded before a certain time to diff dir.
+# the '.' wildcard doesn't work in find. I can't find a different way
+to express w/ regexpr files before a certain datetime.
+
+find . -name "2012-08-0[1-2]T[1-2][1-5]*" -exec mv {} ../rawCCdata/ \;
+
+
+# find and remove all empty files:
+find . -size 0c -exec rm {} \;    # or -empty
