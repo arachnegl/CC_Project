@@ -1,1 +1,8 @@
+(rename me README.md)
+
 This will become documentation.
+
+
+## Install
+
+' git clone ...'
