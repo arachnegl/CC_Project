@@ -24,7 +24,8 @@ for fName in files:
                 nextDay = True
             
             line[0] = currDate.isoformat()[:10] + 'T' + line[0]
-            dtype.append(line)
+            if line[1].isdigit():
+                dtype.append(line)
 
 
 indexDateChngs = []
