@@ -1,0 +1,61 @@
+
+\chapter{Background Theory}
+
+
+
+\label{ch:background}
+
+\section{previous work in disaggregation}
+
+disaggregation has a long history.
+
+Previous work on disaggregation algorithms tend to focus on advance hardware. see jacks' report.
+
+\section{Abduction}
+
+Abduction is a logical inference mechanism that flows from description to hypothesis.
+
+It is non-monotonic. This means that later descriptions could affect the truth status or hypothetical conclusions that previously held true.
+
+It is intuitive.
+It is elegant in the sense that it deals with the unknown in terms of probability.
+
+$ \langle P,A,IC \rangle $
+
+where:
+$P$ is a normal logic program. It is a model, a description, of the problem domain. It is a set of rule clauses that match observations as a head to possible explanations as the tail.
+Thus the set of tails represent all the possible hypothesises of the model. And, the set of heads represent all the observations that the program understands and can take into account.
+
+$IC$, the set of integrity constraints are simple first order clauses. These will filter out the set of candidate explanations to provide a solution.
+
+$G$ are the observations that need explaining they are ground predicates. In our program they will be derived from signal processing. They must belong to the subset of heads.[??]
+
+$E$ are the set of
+The program is solved by a combination of backwards reasoning and integrity checks.
+
+Once an explanation has been chosen, then this becomes part of the theory which can be used to draw new conclusions. We don't use this aspect in our project. But see future work.
+
+
+[eg program]
+
+It is efficient in that it deals very efficiently with combinatorial explosion. A good adductive theory will in effect result in a strongly guided search that only considers relevant answers.
+
+Furthermore non-montonicity can be exploited. Unfortunately this aspect couldn't be explored to the full in this project. More on this in future work section.
+
+Abduction has been used in Medical diagnosis... to the best of my knowledge it hasn't been used in the context of signal processing and disaggregation nor has it been used for profiling users.
+
+Thus this report has an academic component that will evaluate abduction in these contexts.
+
+
+\section{convolution}
+
+As will be discussed later an exploration of how to apply calculus, and integration in particular, to signal processing inspired the find of this.
+
+convolution
+
+
+
+There are other aspects that could be looked into.
+
+auto correlation
+cross correlation

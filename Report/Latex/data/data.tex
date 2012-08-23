@@ -1,0 +1,29 @@
+\chapter{Current Cost setup and raw data}
+
+\section{Setup and Raw data}
+
+The format of the data received is the following:
+
+
+Raw data was captured and stored in csv files. xml was considered but the overhead [give calculations] of $timestamp,digit/n$ compared to $<capture><time>timestamp</time><watt>1234</watt></capture>$ would have resulted in much larger files. simple csv was deemed sufficient.
+
+It was only as the project evolved that the above became apparent. So there are 3 types of raw data that were captured. Each corresponding to a change of mind as to what was optimal. Therefore a few scripts were necessary to transform the data into a homogenous set.
+
+The final capture script corresponds to how the energy should be.
+
+I decided to take the time from the receiving computer itself as the time of the actual device would need to be configured by the user himself and therefore is more likely to be wrong.
+
+
+\section{file storage}
+
+working with xml was considered but this is overkill
+
+\section{appliances}
+
+we won't be dealing with light switching.
+
+all the light switches in my home are energy efficient. Old bulb types can be 60Watts or more.
+
+Although some chandelier light might behave like appliances.
+
+[graph of appliances]
