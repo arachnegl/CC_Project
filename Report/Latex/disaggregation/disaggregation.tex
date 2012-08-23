@@ -1,0 +1,97 @@
+\chapter{Signal Processing and Disaggregation}
+
+Originally there was no intention to enter the realm of disaggregation. However reliable disaggregation techniques just don't exist currently. If this project was to be more than a theoretical exercise and furthermore be testable it would need to deal with real data. Thankfully this was quite a pleasant area to work in. It involved a lot of research and thinking which meant refreshing my maths that haven't been visited since high school.
+
+Unexpectedly a role for adductive reasoning was also found here.
+
+I didn't manage to find any examples of Logic based programming being derived from signal processing. So this also proved to be an exciting and potentially innovative exercise in translating between discrete signals and a logic based framework.
+
+
+\section{Preparing the signal}
+
+Ideally we would like to be able to identify sharply defined state changes in the energy consumption. This would mean that electricity consumption would change instantaneously. 
+[insert graph here]
+
+This is of course not possible. The current cost meter already gives us a filter of values of sorts. The discrete signals received, usually one every 6 seconds, so effectively a sampling rate of roughly 0.6Hz. This sampling rate is totally inadequate to trace the finer detail of a devices state change.
+
+For example [graph]
+
+Thus the resolution at which a devices' signature can be identified will be affected. Our approach must take that into account. The changes will be more sudden and there is no telling what has happened in-between the two measurements.
+
+This brings us to our first assumption. We will assume that this frequency rate is enough to supply a unique enough signature for each device.
+
+\subsection{Using a histogram to guide the analysis}
+
+awef awef awef
+
+\subsection{slicing away shadows consumption}
+
+Bar switching off the mains, (and therefore our measuring device) it is difficult to bring a households' electricity consumption to zero. This is due to devices being hard-wired and appliances on standby.
+
+Experimentally I found that even when having unplugged everything I could my flat's energy consumption never descended below 28Watts. Furthermore at this level there was little or no variation.
+
+This brings us to our second assumption. We will assume that every household will have a shadow consumption.
+
+
+\subsection{smoothing algorithms}
+
+A smoother signal ought to lead to clearer analysis.
+
+A variety of algorithms were trialled for the purpose of smoothing the input. 
+
+\section{Identifying appliances}
+
+\subsection{Prototype}
+
+To get a feel for the data.
+
+Home grown algorithm here.
+
+\subsection{Calculus 1 - differentiation}
+
+It is easy to find a maximum of a signal. What is more difficult is identifying local maxima or even plateaus.
+
+A variety of techniques were considered. Hill climbing...
+
+The idea of using basic differentiation was an idea I spent considerable time exploring.
+
+[graph]
+
+[pseudo code]
+
+\subsection{Calculus 2 - integration}
+
+It was whilst revising my calculus and in particular integration that it struck me that integration might offer an answer.
+
+The area below a signal is a very accurate defining characteristic of that signal.
+
+[pseudo code]
+[graph]
+
+s
+
+\subsection{messiness}
+
+A measure of how messy the signal is could lead the way into identifying appliances
+
+\subsection{appliance identification characteristics}
+
+Finally there are certain characteristics that make an appliance identifiable.
+
+These also introduce a new set of assumptions for each appliance
+
+
+\section{Wrapping all together and Abduction}
+
+
+\subsection{combining above to for full signature characterics identification}
+The final algorithm will combine all the above notions into one set. For each event a set of characteristics will be recorded.
+
+This will be translated into a table which identifies predicates.
+
+Thus the data is readied for adductive based analysis.
+
+\subsection{Abduction}
+
+Using abduction to identify each appliance.
+
