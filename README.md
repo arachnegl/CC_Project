@@ -3,4 +3,5 @@ This will become documentation
 
 ## Installation
 
-'git clone myproject'
+To check out type:
+git clone https://github.com/arachnegl/CC_Project.git
