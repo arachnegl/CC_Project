@@ -33,8 +33,7 @@ def convertTimes(readings):
 def zeroIndexTimesAxis(readings):
     """
     Zero indexes a list of times. 
-    Purpose: graph starts from time 0 instead of when readings started.
-
+    Purpose: graph starts from time 0 instead of when readings started.  
     (A better implementation would perhaps use min UTC but had probs with this.)
 
     Function assumes and only makes sense if readings take place within a single day
@@ -82,7 +81,6 @@ def buildGraph(readings):
     graph = fig.add_subplot(111)
     graph.plot_date(x=times,y=watts,fmt='r-')
 
-    
     timeFmt = mpl.dates.DateFormatter('%M:%S')  # formatting for x axis
     graph.xaxis.set_major_formatter(timeFmt)
     minLoc = mpl.dates.MinuteLocator()
@@ -95,11 +93,13 @@ def buildGraph(readings):
     
     graph.set_title('Grill Readings')
     plt.grid(True)
-   # fig.autofmt_xdate(bottom=0.18)    # adjust for date labels
-   # fig.subplots_adjust(left=0.18)
-
+    
+    # rotates and right aligns the x labels, and movees bottom of axes up to make room
+    fig.autofmt_xdate() #  bottom=0.18)    # adjust for date labels
+    # fig.subplots_adjust(left=0.18)
 
 
 readings = prepareData('grill.csv')
 buildGraph(readings)
-plt.show()
+plt.savefig("grill.png")
+#plt.show()
