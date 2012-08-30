@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib as mpl
+mpl.use('PS')
 import matplotlib.pyplot as plt
 import re
 
@@ -46,6 +47,7 @@ def buildGraph(readings):
 
     
 def saveGraph(readings,fName):
+    mpl.use('PS')
     buildGraph(readings)
     plt.savefig(fName)
 
