@@ -3,40 +3,11 @@ import matplotlib.pyplot as plt
 import dateutil.parser as dParser
 import matplotlib.dates as mplDates
 
-# import the smooting algos at some point
-
-
-readings = np.loadtxt('appliance_study_data.csv',
-                      delimiter=',',unpack=False,
-                      dtype={'names':('time','watt'),
-                             'formats':('S19','S4')}
-                      )
-
-"""
-# Alternatively: (dflt dtype is float)
-time,watts = np.loadtxt(fName,unpack=True,
-                        converters={0:mpl.dates.strpdate2num('%Y-%m-%dT%H:%M:%S')},
-                        delimiter=',')
-
-"""
-
-readings = [r for r in readings if not r[1]=='[]']    # strip out empty reads
-readings = [(dParser.parse(r[0]),r[1]) for r in readings]  # str to datetime objs
-readings = [(mplDates.date2num(r[0]),r[1]) for r in readings]  # conv datetime to mpl time
-# alt:
-#mplDateParser = mplDates.strpdate2num('%Y-%m-%dT%H:%M:%S') # if you know the str format
-#readings = [(mplDateParser(r[0]),r[1] for r in readings]
-
-# print(readings[0]) # rtrns  (734724.4361805556, '84')
-
-times = [r[0] for r in readings]
-watts = [r[1] for r in readings]
-
 grill = readings[335:388]
 
 plt.subplot(111)
 plt.plot_date(x=grillTimes,y=grillWatts,xdate=True)
-
+x
 oven = readings[61:172]
 microwave = readings[652:671]
 tv = readings[723:841]
@@ -57,3 +28,48 @@ for a in apps:
 """
 plt.show()
 
+import matplotlib as mpl
+import datetime as dt
+import matplotlib.pyplot as plt
+import re
+
+
+def prepareData(fileName):
+    readings = getReadings(fileName)
+    readings = csvToList(readings)
+    readings = convertTimes(readings)
+    return readings
+
+def buildGraph(readings):
+    times = getTimes(readings)
+    watts = getWatts(readings)
+
+    # start building the graph:
+
+    fig = plt.figure()
+
+    graph = fig.add_subplot(111)
+    graph.plot_date(x=times,y=watts,fmt='r-')
+
+    timeFmt = mpl.dates.DateFormatter('%M:%S')  # formatting for x axis
+    graph.xaxis.set_major_formatter(timeFmt)
+    minLoc = mpl.dates.MinuteLocator()
+    secLoc = mpl.dates.SecondLocator(interval=6)
+    graph.xaxis.set_major_locator(minLoc)
+    graph.xaxis.set_minor_locator(secLoc)
+    
+    graph.set_xlabel('Time')
+    graph.set_ylabel('Watts')
+    
+    graph.set_title('Grill Readings')
+    plt.grid(True)
+    
+    # rotates and right aligns the x labels, and movees bottom of axes up to make room
+    fig.autofmt_xdate() #  bottom=0.18)    # adjust for date labels
+    # fig.subplots_adjust(left=0.18)
+
+
+readings = prepareData('grill.csv')
+buildGraph(readings)
+plt.savefig("grill.png")
+#plt.show()
