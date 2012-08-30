@@ -1,0 +1,44 @@
+\BOOKMARK [0][-]{Doc-Start}{Abstract}{}% 1
+\BOOKMARK [0][-]{Doc-Start}{Acknowledgements}{}% 2
+\BOOKMARK [0][-]{Doc-Start}{Dedication}{}% 3
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 4
+\BOOKMARK [1][-]{section.1.1}{Motivation}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.2}{Smart Meter hardware and Data source}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.3}{Objectives}{chapter.1}% 7
+\BOOKMARK [1][-]{section.1.4}{Report outline}{chapter.1}% 8
+\BOOKMARK [0][-]{chapter.2}{Background Theory}{}% 9
+\BOOKMARK [1][-]{section.2.1}{previous work in disaggregation}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.2}{Abduction}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.3}{convolution}{chapter.2}% 12
+\BOOKMARK [0][-]{chapter.3}{Current Cost setup and raw data}{}% 13
+\BOOKMARK [1][-]{section.3.1}{Setup and Raw data}{chapter.3}% 14
+\BOOKMARK [2][-]{subsection.3.1.1}{Capturing and Parsing Data}{section.3.1}% 15
+\BOOKMARK [2][-]{subsection.3.1.2}{The data}{section.3.1}% 16
+\BOOKMARK [1][-]{section.3.2}{appliances}{chapter.3}% 17
+\BOOKMARK [0][-]{chapter.4}{Signal Processing and Disaggregation}{}% 18
+\BOOKMARK [1][-]{section.4.1}{Preparing the signal}{chapter.4}% 19
+\BOOKMARK [2][-]{subsection.4.1.1}{Using a histogram to guide the analysis}{section.4.1}% 20
+\BOOKMARK [2][-]{subsection.4.1.2}{slicing away shadows consumption}{section.4.1}% 21
+\BOOKMARK [2][-]{subsection.4.1.3}{smoothing algorithms}{section.4.1}% 22
+\BOOKMARK [1][-]{section.4.2}{Identifying appliances}{chapter.4}% 23
+\BOOKMARK [2][-]{subsection.4.2.1}{Prototype}{section.4.2}% 24
+\BOOKMARK [2][-]{subsection.4.2.2}{Calculus 1 - differentiation}{section.4.2}% 25
+\BOOKMARK [2][-]{subsection.4.2.3}{Calculus 2 - integration}{section.4.2}% 26
+\BOOKMARK [2][-]{subsection.4.2.4}{messiness}{section.4.2}% 27
+\BOOKMARK [2][-]{subsection.4.2.5}{appliance identification characteristics}{section.4.2}% 28
+\BOOKMARK [1][-]{section.4.3}{Wrapping all together and Abduction}{chapter.4}% 29
+\BOOKMARK [2][-]{subsection.4.3.1}{combining above to for full signature characterics identification}{section.4.3}% 30
+\BOOKMARK [2][-]{subsection.4.3.2}{Abduction}{section.4.3}% 31
+\BOOKMARK [0][-]{chapter.5}{Abduction}{}% 32
+\BOOKMARK [1][-]{section.5.1}{implementation considerations}{chapter.5}% 33
+\BOOKMARK [1][-]{section.5.2}{Abduction and Disaggregation}{chapter.5}% 34
+\BOOKMARK [2][-]{subsection.5.2.1}{appliance eg}{section.5.2}% 35
+\BOOKMARK [1][-]{section.5.3}{Abduction and User Profiling}{chapter.5}% 36
+\BOOKMARK [2][-]{subsection.5.3.1}{reasoning about users}{section.5.3}% 37
+\BOOKMARK [2][-]{subsection.5.3.2}{the program}{section.5.3}% 38
+\BOOKMARK [2][-]{subsection.5.3.3}{results}{section.5.3}% 39
+\BOOKMARK [0][-]{chapter.6}{Conclusion}{}% 40
+\BOOKMARK [1][-]{section.6.1}{Summary of Thesis Achievements}{chapter.6}% 41
+\BOOKMARK [1][-]{section.6.2}{Applications}{chapter.6}% 42
+\BOOKMARK [1][-]{section.6.3}{Future Work}{chapter.6}% 43
+\BOOKMARK [0][-]{section.6.3}{Bibliography}{}% 44

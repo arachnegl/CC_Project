@@ -12,11 +12,41 @@ It was only as the project evolved that the above became apparent. So there are 
 The final capture script corresponds to how the energy should be.
 
 I decided to take the time from the receiving computer itself as the time of the actual device would need to be configured by the user himself and therefore is more likely to be wrong.
+\subsection{Capturing and Parsing Data}
 
+The general output of the Energy Monitor and thus the input to our system has this form:
 
-\section{file storage}
+serial port data
 
-working with xml was considered but this is overkill
+$
+\langle msg \rangle \\
+\langle src\>CC128-v1.29\langle /src \rangle \\
+\langle dsb \rangle00097\langle /dsb \rangle \\
+\langle time \rangle 08:03:42 \langle /time \rangle \\
+\langle tmpr \rangle 18.5 \langle /tmpr \rangle \\
+\langle sensor \rangle 0 \langle /sensor \rangle \\
+\langle id \rangle 01657 \langle /id \rangle \\
+\langle type \rangle 1 \langle /type \rangle \\
+\langle ch1 \rangle\langle watts \rangle 00184 \langle /watts \rangle \langle /ch1 \rangle \\
+\langle /msg \rangle \\
+$
+
+Given a certain installation the data never changes. Much of the information is redundant. For my program the only variables that are interesting are the watt and time readings. Potentially reasoning based on temperature could be useful, but this information could be obtained from more reliable database sources later. Furthermore the time provided by the smart meter is dependent on the user correctly configuring the device. I felt that a more accurate approach would be for the receiving computer to provide the timestamp.
+
+A parser written in python will translate this into the ultimate chosen knowledge representation. 
+
+I tried a variety of implementations based on parsing the xml. This included creating a tree or using a event based (sax) approach. In the end using regular expressions seemed to offer the most straightforward concise and efficient solution. The data never changes.
+
+\subsection{The data}
+
+Over the course of slightly more than two weeks I accumulated a sufficient volume of real time data. This data is included in the project files.
+
+I thought I was being clever in stripping out the extra information, but it turns out that a full datestamp makes the code clearer and I should have left the full datestamp.
+
+As the program to register the readings evolved with my understanding of data capture the raw source data changed slightly. There are quite a few scripts that I had to code to homogenise the data in order to prepare it for future work.
+
+With this data the project was ready to begin.
+
 
 \section{appliances}
 
