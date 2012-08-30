@@ -6,7 +6,7 @@
                                                     % commented out as creating probs
                                                     % maybe add \amsmaths  ??
 %\usepackage{amsmaths}
-\usepackage{hyperref}
+\usepackage{hyperref}   % GL added
 
 \usepackage{setspace}
 
@@ -114,18 +114,18 @@
 \newtheorem{definition}{Definition}[chapter]
 \newtheorem{theorem}{Theorem}[chapter]
 
-\newcommand{\Figref}[1]{Figure~\ref{#1}}
+\newcommand{\Figref}[1]{Figure~\ref{#1}}         % GL: not sure what this does & how to use it
 \newcommand{\fig}[3]{
  \begin{figure}[!ht]
  \begin{center}
- \scalebox{#3}{\includegraphics{figs/#1.ps}}
+ \scalebox{#3}{\includegraphics{figs/#1.png}}   % [GL: replaced .ps w .png - pdftex doesn't recognise .ps]
  \vspace{-0.1in}
  \caption[ ]{\label{#1} #2}
  \end{center}
  \end{figure}
 }
 
-\newcommand{\figtwo}[8]{
+\newcommand{\figtwo}[8]{                         % GL haven't tried to use this yet.
  \begin{figure}
  \parbox[b]{#4 \textwidth}{
  \begin{center}
