@@ -66,6 +66,7 @@ def extractValuesFromCCFile2(ccFile):
 
     """
 
+
 # Yet another version:
 def extractValuesFromCCFile3(fName):
     """
@@ -75,6 +76,7 @@ def extractValuesFromCCFile3(fName):
         readings = [r for r in f.readlines()]
         readings = csvStrToListOfReadings
         return readings
+
 
 def csvStrToListOfReadings(csvList):
     """
@@ -139,38 +141,6 @@ def convertToMPLDateTimes2(readings):
     return [(mpl_date2num(r[0]),r[1]) for r in readings]   # convert to mpl dates (floats)
 
 
-
-def time(readings):
-    """
-    returns list of time values from first column of list of lists input
-
-    >>> a = [['12-08-12',345],['12-08-13',123]]
-    >>> time(a)
-    ['12-08-12', '12-08-13']
-    """
-    return [time[:1][0] for time in readings]
-
-
-def zeroIndexTimesAxis(readings):
-    """
-    Zero indexes a list of times. 
-    Purpose: graph starts from time 0 instead of when readings started.  
-    (A better implementation would perhaps use min UTC but had probs with this.)
-
-    Function assumes and only makes sense if readings take place within a single day
-
-    >>>
-    >>>
-
-    """
-    time0 = readings[0][0]                                              # get first reading
-    d0 = time0.strftime(format=DATETIMEFORMAT)[:10] + "T00:00:00"  # set d0 to beg of day
-    d0 = dt.datetime.strptime(d0,DATETIMEFORMAT)
-    d1 = time0
-    delta = d1 - d0
-    return [[time[0] - delta, time[1]] for time in readings]
-
-
 def getTimes(readings):
     """
     returns first column in list with 'two columns'
@@ -182,7 +152,6 @@ def getTimes(readings):
     ['12-08-12', '12-08-13']
     """
     return [r[0] for r in readings]
-
 
 
 def getWatts(readings):
