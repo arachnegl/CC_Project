@@ -10,3 +10,6 @@ Otherwise run the py4maths script
 This will set up a virtual environment in a custom folder in your user space.
 
 Finally you can also use the virtualbox environment that I have been using
+
+Furthermore Ubuntu doesn't provide nice packages for an uptodate yap prolog. 
+The script provided should ease that installation for you.
