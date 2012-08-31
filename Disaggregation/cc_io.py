@@ -10,6 +10,7 @@ import numpy as np
 from matplotlib.dates import strpdate2num as mpl_strpdate2num
 from matplotlib.dates import date2num as mpl_date2num
 import datetime as dt
+import re
 
 # defines string date format for date parsers
 DATETIMEFORMAT = '%Y-%m-%dT%H:%M:%S'
@@ -49,7 +50,7 @@ def extractValuesFromCSV(csvFile):
         return -1
 
 
-def extractValues(ccFile):
+def extractValuesFromCCFile2(ccFile):
     readings = np.loadtxt(ccFile,
                       delimiter=',',unpack=False,
                       dtype={'names':('time','watt'),  # dtype is not used but good practice
@@ -66,18 +67,23 @@ def extractValues(ccFile):
     """
 
 # Yet another version:
-def getReadings(fileName):
+def extractValuesFromCCFile3(fName):
     """
     returns file contents as list of lines 
     """
-    with open(fileName,'r') as f:
-        return [r for r in f.readlines()]
+    with open(fName,'r') as f:
+        readings = [r for r in f.readlines()]
+        readings = csvStrToListOfReadings
+        return readings
 
-def csvToList(csvList):
+def csvStrToListOfReadings(csvList):
     """
-    ['2012-09-07T12:01:02,211'] -> [['2012-09-07T12:01:02','211']]
+    ['2012-09-07T12:01:02,211\r\n'] -> [('2012-09-07T12:01:02','211')]
 
     csv parser better than below - but good to experiment)
+
+    >>> csvStrToListOfReadings(['2012-09-07T12:01:02,211\\r\\n']) # need extra escapes for docstring interpretation
+    [('2012-09-07T12:01:02', '211')]
     """
     readings = [r[0:-2] for r in csvList]                # truncate newline chars
     readings = [re.split(r',',r,2) for r in readings]    # split str into two ',' delimiter
