@@ -96,3 +96,22 @@ def zeroIndexTimesAxis(readings):
     d1 = time0
     delta = d1 - d0
     return [[time[0] - delta, time[1]] for time in readings]
+
+
+def printPlot(fileName):
+
+    fig = plt.figure()
+    graph = fig.add_subplot(111)   # neccessary?
+
+    graph.plot_date(time,watts,marker='o',markersize=0,markeredgewidth=0,linestyle='-')
+
+    timeFmt = mpl.dates.DateFormatter('%H:%M')
+    graph.xaxis.set_major_formatter(timeFmt)
+    hourLoc = mpl.dates.HourLocator(interval=3)
+    #minLoc = mpl.dates.MinuteLocator(interval=15)
+    graph.xaxis.set_major_locator(hourLoc)
+    #graph.xaxis.set_minor_locator(minLoc)
+
+    print('I am going to print')
+
+    plt.show()
