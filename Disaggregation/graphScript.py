@@ -27,6 +27,13 @@ for a in apps:
 plt.plot_date(x=grillTimes,y=grillWatts,xdate=True)
 plt.show()
 """
+import numpy as np
+import matplotlib as mpl
+mpl.use('Agg')
+import matplotlib.pyplot as plt
+import re
+
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -114,4 +121,25 @@ def printPlot(fileName):
 
     print('I am going to print')
 
+    plt.show()
+
+
+def buildGraph(readings):
+    """
+    
+    """
+    times = [r[0] for r in readings]
+    watts = [r[1] for r in readings]
+
+    fig = plt.figure()
+    graph = fig.add_subplot(111)
+    graph.plot_date(x=times,y=watts,fmt='-')
+
+    
+def saveGraph(readings,fName):
+    buildGraph(readings)
+    plt.savefig(fName)
+
+def showGraph(readings):
+    buildGraph(readings)
     plt.show()
