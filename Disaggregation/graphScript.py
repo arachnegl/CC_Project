@@ -27,13 +27,6 @@ for a in apps:
 plt.plot_date(x=grillTimes,y=grillWatts,xdate=True)
 plt.show()
 """
-import numpy as np
-import matplotlib as mpl
-mpl.use('Agg')
-import matplotlib.pyplot as plt
-import re
-
-
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -43,7 +36,7 @@ import matplotlib as mpl
 import datetime as dt
 import matplotlib.pyplot as plt
 import re
-
+import cc_io
 
 def prepareData(fileName):
     readings = getReadings(fileName)
@@ -103,43 +96,3 @@ def zeroIndexTimesAxis(readings):
     d1 = time0
     delta = d1 - d0
     return [[time[0] - delta, time[1]] for time in readings]
-
-
-def printPlot(fileName):
-
-    fig = plt.figure()
-    graph = fig.add_subplot(111)   # neccessary?
-
-    graph.plot_date(time,watts,marker='o',markersize=0,markeredgewidth=0,linestyle='-')
-
-    timeFmt = mpl.dates.DateFormatter('%H:%M')
-    graph.xaxis.set_major_formatter(timeFmt)
-    hourLoc = mpl.dates.HourLocator(interval=3)
-    #minLoc = mpl.dates.MinuteLocator(interval=15)
-    graph.xaxis.set_major_locator(hourLoc)
-    #graph.xaxis.set_minor_locator(minLoc)
-
-    print('I am going to print')
-
-    plt.show()
-
-
-def buildGraph(readings):
-    """
-    
-    """
-    times = [r[0] for r in readings]
-    watts = [r[1] for r in readings]
-
-    fig = plt.figure()
-    graph = fig.add_subplot(111)
-    graph.plot_date(x=times,y=watts,fmt='-')
-
-    
-def saveGraph(readings,fName):
-    buildGraph(readings)
-    plt.savefig(fName)
-
-def showGraph(readings):
-    buildGraph(readings)
-    plt.show()
