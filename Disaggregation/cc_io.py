@@ -30,12 +30,12 @@ def extractValuesFromCCFile(ccFile):
 
 
 
-def removeEmptyReadings(readings):
+def removeNonDigitReadings(readings):
     """
     removes all readings which have a non digit watt value
 
     >>> r = [('2012-01-01T00:00:00','84'),('2013-08-01T01:01:01','[]')]
-    >>> removeEmptyReadings(r)
+    >>> removeNonDigitReadings(r)
     [('2012-01-01T00:00:00', '84')]
 
     """
@@ -63,18 +63,18 @@ def stripEmptyReadings(aFile):
     f.close()
 
 
-def convertToMPLDateTimes(readings):
+def convertStrDateTimesToMPLDateTimes(readings):
     """
     converts string datetimes into datetimes suitable for matplotlib's date_plot function
     
     (Matplotlib represents time as float since 0001-01-01 00:00:00 UTC)
     
     NB: strpdate2num seems undocumented except in source code 
-    convertToMPLDateTimes2 which circumvents use of this function
+    convertStrDatetimesToMPLDateTimes2 which circumvents use of this function
     is available in case it is deprecated
 
     >>> r = [('2012-01-01T00:00:00','84')]
-    >>> convertToMPLDateTimes(r)
+    >>> convertStrDateTimesToMPLDateTimes(r)
     [(734503.0, '84')]
     """
     # Alternative:
@@ -86,17 +86,17 @@ def convertToMPLDateTimes(readings):
     return readings
 
 
-def convertToMPLDateTimes2(readings):
+def convertStrDateTimesToMPLDateTimes2(readings):
     """
     Converts repr of time: str -> datetime objs -> matplotlib times
     
     (Matplotlib represents time as float since 0001-01-01 00:00:00 UTC)
     
-    Alternative for convertToMPLDateTimes as strpdate2num 
+    Alternative for convertStrDateTimesToMPLDateTimes as strpdate2num 
     seems undocumented except in source code (is it deprecated?)
 
     >>> r = [('2012-01-01T00:00:00','84')]
-    >>> convertToMPLDateTimes2(r)
+    >>> convertStrDateTimesToMPLDateTimes2(r)
     [(734503.0, '84')]
     """
     readings = [(dt.datetime.strptime(r[0],DATETIMEFORMAT),r[1]) for r in readings]
@@ -127,6 +127,17 @@ def getWatts(readings):
     [345, 123]
     """
     return [r[1] for r in readings]
+
+
+def getReadingsFromFile(ccFile):
+    """
+    Wrapper around functions above 
+
+    """
+    readings = extractValuesFromCCFile(ccFile)
+    readings = removeNonDigitReadings(readings)
+    readings = convertStrDateTimesToMPLDateTimes(readings)
+    return readings
 
 
 import doctest
