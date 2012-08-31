@@ -78,6 +78,19 @@ def extractValuesFromCCFile3(fName):
         return readings
 
 
+
+def extractReadings(aFile):
+    """
+    extracts readings from a file in format [[float,int]]
+    (float represents time in matplotlib dates)
+    """
+    readings = np.loadtxt(aFile,delimiter=',',unpack=False,
+                          dtype={'names':('time','watts'),'formats':('f12','i4')},
+                          converters={0:mpl.dates.strpdate2num('%Y-%m-%dT%H:%M:%S'),1:int} )
+
+    return readings
+
+
 def csvStrToListOfReadings(csvList):
     """
     ['2012-09-07T12:01:02,211\r\n'] -> [('2012-09-07T12:01:02','211')]
@@ -104,6 +117,24 @@ def removeEmptyReadings(readings):
     #readings = [r for r in readings if not r[1]=='[]']    # works in practice but not general enough
     readings = [r for r in readings if r[1].isdigit()]
     return readings
+
+
+def stripEmptyReadings(aFile):
+    """
+    Strips empty readings marked as watt readings of '[]' from a current cose data file
+    """
+    readings = []
+    with open(aFile,'r') as f:
+        readings = f.readlines()
+    f.close()
+
+    # if '[]' not found, findall rtrns [] which is equivalent to False
+    readings = [r for r in readings if not re.findall(r",\[\]",r)]
+
+    with open(aFile,'w') as f:
+        for r in readings:
+            f.write("{}".format(r))  # using py3 syntax
+    f.close()
 
 
 def convertToMPLDateTimes(readings):
