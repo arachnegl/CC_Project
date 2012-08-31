@@ -1,33 +1,37 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import dateutil.parser as dParser
-import matplotlib.dates as mplDates
+"""
+This module provides functions for plotting the data
 
+"""
+
+"""
 grill = readings[335:388]
-
-plt.subplot(111)
-plt.plot_date(x=grillTimes,y=grillWatts,xdate=True)
-x
 oven = readings[61:172]
 microwave = readings[652:671]
 tv = readings[723:841]
 washingMachine = readings[1092:1710]
 dishWasher = readings[1818:2097]
 toaster = readings[9:29]
+"""
 
+"""
 apps = ['grill','oven','microwave',
        'tv','washingMachine','dishWasher',
        'toaster']
 
-"""
 for a in apps:
     i = apps.index(a)
     plt.subplot(231+i)
     eval('plt.plot(' + a + ')')
     plt.title(a)
-"""
-plt.show()
 
+plt.plot_date(x=grillTimes,y=grillWatts,xdate=True)
+plt.show()
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+import dateutil.parser as dParser
+import matplotlib.dates as mplDates
 import matplotlib as mpl
 import datetime as dt
 import matplotlib.pyplot as plt
@@ -73,3 +77,22 @@ readings = prepareData('grill.csv')
 buildGraph(readings)
 plt.savefig("grill.png")
 #plt.show()
+
+def zeroIndexTimesAxis(readings):
+    """
+    Zero indexes a list of times. 
+    Purpose: graph starts from time 0 instead of when readings started.  
+    (A better implementation would perhaps use min UTC but had probs with this.)
+
+    Function assumes and only makes sense if readings take place within a single day
+
+    >>>
+    >>>
+
+    """
+    time0 = readings[0][0]                                              # get first reading
+    d0 = time0.strftime(format=DATETIMEFORMAT)[:10] + "T00:00:00"  # set d0 to beg of day
+    d0 = dt.datetime.strptime(d0,DATETIMEFORMAT)
+    d1 = time0
+    delta = d1 - d0
+    return [[time[0] - delta, time[1]] for time in readings]
