@@ -1,6 +1,21 @@
-import csv, sys
+"""
+This module defines various input functions for parsing and loading readings from cc files
 
-def extractValues(csvFile):
+It also includes some functions for cleaning the data and extracting watts and times arrays
+
+Finally it also provides some time related functions
+"""
+import csv, sys
+import numpy as np
+from matplotlib.dates import strpdate2num as mpl_strpdate2num
+from matplotlib.dates import date2num as mpl_date2num
+import datetime as dt
+
+# defines string date format for date parsers
+DATETIMEFORMAT = '%Y-%m-%dT%H:%M:%S'
+
+
+def extractValuesFromCSV(csvFile):
     """
     Returns a list of two value lists stripping entries with no numeric values. (In practice '[]')
 
@@ -13,7 +28,7 @@ def extractValues(csvFile):
     nVals = 0
 
     with open(csvFile, 'r') as f: 
-        reader = csv.reader(f)
+        reader = csvReader(f)
         try:
             for line in reader:
                 lRead += 1
@@ -34,39 +49,23 @@ def extractValues(csvFile):
         return -1
 
 
-
-readings = np.loadtxt('appliance_study_data.csv',
+def extractValues(ccFile):
+    readings = np.loadtxt(ccFile,
                       delimiter=',',unpack=False,
-                      dtype={'names':('time','watt'),
+                      dtype={'names':('time','watt'),  # dtype is not used but good practice
                              'formats':('S19','S4')}
                       )
+    return readings
 
-"""
-# Alternatively: (dflt dtype is float)
-time,watts = np.loadtxt(fName,unpack=True,
-                        converters={0:mpl.dates.strpdate2num('%Y-%m-%dT%H:%M:%S')},
+    """
+    # Alternatively: (dflt dtype is float)
+    time,watts = np.loadtxt(fName,unpack=True,
+                        converters={0:mpl.dates.strpdate2num(DATETIMEFORMAT)},
                         delimiter=',')
 
-"""
+    """
 
-
-
-# import the smooting algos at some point
-
-
-readings = [r for r in readings if not r[1]=='[]']    # strip out empty reads
-readings = [(dParser.parse(r[0]),r[1]) for r in readings]  # str to datetime objs
-readings = [(mplDates.date2num(r[0]),r[1]) for r in readings]  # conv datetime to mpl time
-# alt:
-#mplDateParser = mplDates.strpdate2num('%Y-%m-%dT%H:%M:%S') # if you know the str format
-#readings = [(mplDateParser(r[0]),r[1] for r in readings]
-
-# print(readings[0]) # rtrns  (734724.4361805556, '84')
-
-times = [r[0] for r in readings]
-watts = [r[1] for r in readings]
-
-
+# Yet another version:
 def getReadings(fileName):
     """
     returns file contents as list of lines 
@@ -78,22 +77,60 @@ def csvToList(csvList):
     """
     ['2012-09-07T12:01:02,211'] -> [['2012-09-07T12:01:02','211']]
 
-    csv parser better than below - but wanted to experiment)
+    csv parser better than below - but good to experiment)
     """
-    readings = [r[0:-2] for r in csvList]              # truncate newline chars
-    return [re.split(r',',r,2) for r in readings]      # split str into two ',' delimiter
+    readings = [r[0:-2] for r in csvList]                # truncate newline chars
+    readings = [re.split(r',',r,2) for r in readings]    # split str into two ',' delimiter
+    return [(r[0],r[1]) for r in readings]               # convert list of lists [[][]] to list of tuples [()()]
 
 
+def removeEmptyReadings(readings):
+    """
+    removes all readings which have a non digit watt value
 
-def convertTimes(readings):
+    >>> r = [('2012-01-01T00:00:00','84'),('2013-08-01T01:01:01','[]')]
+    >>> removeEmptyReadings(r)
+    [('2012-01-01T00:00:00', '84')]
+
+    """
+    #readings = [r for r in readings if not r[1]=='[]']    # works in practice but not general enough
+    readings = [r for r in readings if r[1].isdigit()]
+    return readings
+
+
+def convertToMPLDateTimes(readings):
+    """
+    converts string datetimes into datetimes suitable for matplotlib's date_plot function
+    
+    (Matplotlib represents time as float since 0001-01-01 00:00:00 UTC)
+
+    >>> r = [('2012-01-01T00:00:00','84')]
+    >>> convertToMPLDateTimes(r)
+    [(734503.0, '84')]
+    """
+    # Alternative:
+    # readings = [(dParser.parse(r[0]),r[1]) for r in readings]      # str to datetime objs
+    # readings = [(mplDates.date2num(r[0]),r[1]) for r in readings]  # conv datetime to mpl time
+
+    mplDateParser = mpl_strpdate2num(DATETIMEFORMAT)      # strpdate2num seems undocumented except in src code
+    readings = [(mplDateParser(r[0]),r[1]) for r in readings]
+    return readings
+
+
+def convertToMPLDateTimes2(readings):
     """
     Converts repr of time: str -> datetime objs -> matplotlib times
     
+    Alternative for first function as strpdate2num seems undocumented except in source code (is it deprecated?)
     (Matplotlib represents time as float since 0001-01-01 00:00:00 UTC)
+
+    >>> r = [('2012-01-01T00:00:00','84')]
+    >>> convertToMPLDateTimes2(r)
+    [(734503.0, '84')]
     """
-    readings = [[dt.datetime.strptime(r[0],"%Y-%m-%dT%H:%M:%S"),r[1]] for r in readings]
+    readings = [(dt.datetime.strptime(r[0],DATETIMEFORMAT),r[1]) for r in readings]
     readings = zeroIndexTimesAxis(readings)                                 # zero index the time values
-    return [[mpl.dates.date2num(r[0]),r[1]] for r in readings]   # convert to mpl dates (floats)
+    return [(mpl_date2num(r[0]),r[1]) for r in readings]   # convert to mpl dates (floats)
 
 
 
@@ -115,10 +152,14 @@ def zeroIndexTimesAxis(readings):
     (A better implementation would perhaps use min UTC but had probs with this.)
 
     Function assumes and only makes sense if readings take place within a single day
+
+    >>>
+    >>>
+
     """
     time0 = readings[0][0]                                              # get first reading
-    d0 = time0.strftime(format="%Y-%m-%dT%H:%M:%S")[:10] + "T00:00:00"  # set d0 to beg of day
-    d0 = dt.datetime.strptime(d0,"%Y-%m-%dT%H:%M:%S")
+    d0 = time0.strftime(format=DATETIMEFORMAT)[:10] + "T00:00:00"  # set d0 to beg of day
+    d0 = dt.datetime.strptime(d0,DATETIMEFORMAT)
     d1 = time0
     delta = d1 - d0
     return [[time[0] - delta, time[1]] for time in readings]
@@ -130,28 +171,25 @@ def getTimes(readings):
 
     eg: [[a,b]] -> [a]
 
+    >>> a = [('12-08-12',345),('12-08-13',123)]
+    >>> getTimes(a)
+    ['12-08-12', '12-08-13']
     """
     return [r[0] for r in readings]
 
+
+
 def getWatts(readings):
     """
-    returns second column in list with 'two columns'
+    returns list of watt values from second column of inputted list
 
-    eg: [[a,b]] -> [b]
+    [(a,b)] -> [b]
 
-    """
-    return [r[1] for r in readings]
-
-
-def watts(readings):
-    """
-    returns list of watt values from second column of list of lists input
-
-    >>> a = [['12-08-12',345],['12-08-13',123]]
-    >>> watts(a)
+    >>> a = [('12-08-12',345),('12-08-13',123)]
+    >>> getWatts(a)
     [345, 123]
     """
-    return [watts[1:][0] for watts in readings]
+    return [r[1] for r in readings]
 
 
 import doctest
