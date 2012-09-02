@@ -3,12 +3,15 @@ This module defines various input functions for parsing and loading readings fro
 
 It also includes some functions for cleaning the data and extracting watts and times arrays
 
+you probably want to use getReadingsFromFile(yourFile) and the getTimes getWatts functions.
+
 Finally it also provides some time related functions
 """
 import numpy as np
 from matplotlib.dates import strpdate2num as mpl_strpdate2num
 from matplotlib.dates import date2num as mpl_date2num
 import datetime as dt
+import re
 
 # defines string date format for date parsers
 DATETIMEFORMAT = '%Y-%m-%dT%H:%M:%S'
@@ -44,7 +47,7 @@ def removeNonDigitReadings(readings):
     return readings
 
 
-def stripEmptyReadings(aFile):
+def removeEmptyReadingsFromFile(aFile):
     """
     Strips empty readings marked as watt readings of '[]' from a current cose data file
     it then saves over-writing original file
