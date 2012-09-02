@@ -65,4 +65,12 @@ def filesOfAllDayFigures(pathToFiles='../CC_Captures/cleanCCdata/'):
         graph = getFigureWithGraphsOf(days[i:i+3])
         graph.savefig('pics/fig' + str(i))
 
+def filesOfAllDaysWithOver12kReadings(pathToFiles='../CC_Captures/cleanCCdata/'):
+    files = getListOfFiles(pathToFiles)
+    days = getAllReadings(files)
 
+    days = [d for d in days if len(d) > 12000]
+
+    for i in [1,4,7,10,13,16]:
+        graph = getFigureWithGraphsOf(days[i:i+3])
+        graph.saveFig('pics/fig' + str(i))
