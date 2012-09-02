@@ -4,12 +4,10 @@ This module provides functions for plotting the data
 """
 
 import matplotlib.pyplot as plt
-
-import dateutil.parser as dParser
-import matplotlib.dates as mplDates
+import matplotlib.dates as mdates
 import datetime as dt
 
-import matplotlib as mpl
+DATETIMEFORMAT = '%Y-%m-%dT%H:%M:%S'
 
 
 def buildGraph(times,watts,name):
@@ -42,7 +40,7 @@ def showGraph(figObj):
     figObj.show()
 
 
-def zeroIndexTimesAxis(readings):
+def zeroIndexTimesAxisDT(readings):
     """
     Zero indexes a list of times. 
     Purpose: graph starts from time 0 instead of when readings started.  
@@ -59,9 +57,24 @@ def zeroIndexTimesAxis(readings):
     d0 = dt.datetime.strptime(d0,DATETIMEFORMAT)
     d1 = time0
     delta = d1 - d0                 # amount to be subracted from each reading
-    return [[time[0] - delta, time[1]] for time in readings]
+    return [(time[0] - delta, time[1]) for time in readings]
 
-
+def zeroIndexTimesAxisMPL(readings):
+    """
+    Zero indexes a reading's list of mpl datetimes
+    """
+    dt0 = mdates.num2date(readings[0][0])
+    dt0 = dt0.isoformat()
+    dt0 = dt0[:10] + "T00:00:00"
+    dt0 = dt.datetime.strptime(dt0,DATETIMEFORMAT)
+    d1 = mdates.num2date(readings[0][0])
+    d1 = d1.replace(tzinfo=None)
+    # dt0.replace(tzinfo=None)
+    delta = d1 - dt0
+    # import pdb; pdb.set_trace()
+    results = [(mdates.num2date(r[0]).replace(tzinfo=None),r[1]) for r in readings]
+    results = [(r[0] - delta, r[1]) for r in results]
+    return [(mdates.date2num(r[0]),r[1]) for r in results]
 
 
 """
