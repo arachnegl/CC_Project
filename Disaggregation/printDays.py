@@ -2,7 +2,7 @@
 Script to print graph of days 3 at a time (for now)
 
 You probably only want to issue this cmd to get imgs of all files:
-    filesOfAllDayFigures()
+    filesOfAllDaysWithOver12kReadings()
 
 Typical usage:
     files = getListOfFiles(insertPath)
@@ -45,12 +45,12 @@ def getFigureWithGraphsOf(readings):
  
         # Naming - use date of first reading for name:
         day = mdates.num2date(readings[i][0][0])
-        dayName = day.strftime('%A %B %Y')
+        dayName = day.strftime('%A %d %B %Y')
         graph.set_title(dayName)
 
         graph.grid(True)
 
-    fig.autofmt_xdate()
+    #fig.autofmt_xdate()
 
     return fig
 
@@ -73,4 +73,4 @@ def filesOfAllDaysWithOver12kReadings(pathToFiles='../CC_Captures/cleanCCdata/')
 
     for i in [1,4,7,10,13,16]:
         graph = getFigureWithGraphsOf(days[i:i+3])
-        graph.saveFig('pics/fig' + str(i))
+        graph.savefig('pics/fig' + str(i))
