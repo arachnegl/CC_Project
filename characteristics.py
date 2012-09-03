@@ -36,6 +36,18 @@ def getTimeSlice(begHr,endHr,readings):
     result = [r for r in readings if (beg < r[0]) and (r[0] < end)]
     return result
 
+def getConvolve(appl,reading):
+    """
+    Wrapper function around numpy's convolve. 
+    
+    Provides more convenient handling.
+    """
+    aWatts = [w[1] for w in appl]
+    rWatts = [w[1] for w in reading]
+
+    conv = np.convolve(aWatts,rWatts,'valid')  # 'valid' means overlap is required
+    return conv
+
 def isGrillDetected(readings):
     """
     returns True if grill is found, False otherwise
