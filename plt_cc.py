@@ -11,8 +11,8 @@ Usage:
 
 import matplotlib.pyplot as plt
 
-import timeUtils as tu    # for zeroIndexTimesAxisMPL
-import appData as ap      # for app graphing func
+import timeutils_cc as tu    # for zeroIndexTimesAxisMPL
+import appldata_cc as ap      # for app graphing func
 
 
 def getTimes(readings):

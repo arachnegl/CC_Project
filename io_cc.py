@@ -10,7 +10,7 @@ you probably want to use getReadingsFromFile(yourFile).
 import numpy as np
 import re
 
-import timeUtils_cc as cct
+import timeutils_cc as cct
 
 def extractValuesFromCCFile(ccFile):
     """
