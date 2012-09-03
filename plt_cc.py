@@ -1,7 +1,10 @@
 """
-This module provides functions for plotting the data
+Provides plotting functions for current cost data
 
-
+Usage:
+    fig = getTimeWattFigure(readings,'myGraphTitle')
+    fig.show()
+    fig.savefig('nameOfFile')
 
 """
 
@@ -10,7 +13,6 @@ import matplotlib.pyplot as plt
 
 import timeUtils as tu    # for zeroIndexTimesAxisMPL
 import appData as ap      # for app graphing func
-
 
 
 def getTimes(readings):
@@ -40,15 +42,18 @@ def getWatts(readings):
 
 
 
-def getTimeWattFigure(times,watts,name):
+def getTimeWattFigure(readings,name='Time Series Plot Of Watts'):
     """
     Returns straightforward time series of watt values
     
     """
+    times = getTimes(readings)
+    watts = getWatts(readings)
+
     fig = plt.figure()
 
     axs = fig.add_subplot(111)
-    axs.plot_date(x=times,y=watts,fmt='r-')
+    axs.plot_date(x=times,y=watts,fmt='b-')
     axs.set_xlabel('Time')
     axs.set_ylabel('Watts')
     

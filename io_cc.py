@@ -10,11 +10,7 @@ you probably want to use getReadingsFromFile(yourFile).
 import numpy as np
 import re
 
-import ccTimeUtils as cct
-
-# defines string date format for date parsers
-DATETIMEFORMAT = '%Y-%m-%dT%H:%M:%S'
-
+import timeUtils as cct
 
 def extractValuesFromCCFile(ccFile):
     """
@@ -48,7 +44,7 @@ def removeNonDigitReadings(readings):
 
 def removeEmptyReadingsFromFile(aFile):
     """
-    Strips empty readings marked as watt readings of '[]' from a current cose data file
+    Strips empty readings marked as watt readings of '[]' from a current cost data file
     it then saves over-writing original file
     """
     readings = []
