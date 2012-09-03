@@ -28,17 +28,17 @@ def extractValuesFromCCFile(ccFile):
 
 
 
-def removeNonDigitReadings(readings):
+def clean(readings):
     """
-    removes all readings which have a non digit watt value
+    removes all non digit watt values and converts to int
 
     >>> r = [('2012-01-01T00:00:00','84'),('2013-08-01T01:01:01','[]')]
     >>> removeNonDigitReadings(r)
-    [('2012-01-01T00:00:00', '84')]
+    [('2012-01-01T00:00:00', 84)]
 
     """
     #readings = [r for r in readings if not r[1]=='[]']    # works in practice but not general enough
-    readings = [r for r in readings if r[1].isdigit()]
+    readings = [(r[0],int(r[1])) for r in readings if r[1].isdigit()]
     return readings
 
 
@@ -67,7 +67,7 @@ def getReadingsFromFile(ccFile):
 
     """
     readings = extractValuesFromCCFile(ccFile)
-    readings = removeNonDigitReadings(readings)
+    readings = clean(readings)
     readings = cct.convertStrDateTimesToMPLDateTimes(readings)
     return readings
 
