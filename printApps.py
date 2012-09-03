@@ -11,65 +11,57 @@ import cc_io as io   # for getTimes and getWatts
 import graphScript as gs  # for zeroIndexTimesAxisMPL
 import matplotlib.pyplot as plt
 
+import appData as ap
 
-listOfApp = ['grill','oven','microwave',
-       'tv','washingMachine','dishWasher',
-       'toaster']
+def getAppFig():
+    """
+    Saves an illustration of what the appliances look like to file
 
-appReadings = io.getReadingsFromFile('appliance_data_clean.csv')
+    (I know there is a better way of doing this)
+    """
+    # grill
+    grRs = ap.grill
+    grRs = gs.zeroIndexTimesAxisMPL(grRs)
+    grTs = io.getTimes(grRs)
+    grWs = io.getWatts(grRs)
+
+    # oven
+    ovRs = ap.oven
+    ovRs = gs.zeroIndexTimesAxisMPL(ovRs)
+    ovTs = io.getTimes(ovRs)
+    ovWs = io.getWatts(ovRs)
+    
+    # microwave
+    mwRs = ap.microwave
+    mwRs = gs.zeroIndexTimesAxisMPL(mwRs)
+    mwTs = io.getTimes(mwRs)
+    mwWs = io.getWatts(mwRs)
+
+    # tv
+    tvRs = ap.tv
+    tvRs = gs.zeroIndexTimesAxisMPL(tvRs)
+    tvTs = io.getTimes(tvRs)
+    tvWs = io.getWatts(tvRs)
+
+    # toaster
+    tsRs = ap.toaster
+    tsRs = gs.zeroIndexTimesAxisMPL(tsRs)
+    tsTs = io.getTimes(tsRs)
+    tsWs = io.getWatts(tsRs)
+
+    # washing machine
+    wmRs = ap.washingMachine
+    wmRs = gs.zeroIndexTimesAxisMPL(wmRs)
+    wmTs = io.getTimes(wmRs)
+    wmWs = io.getWatts(wmRs)
+
+    # dish washer
+    dwRs = ap.dishWasher
+    dwRs = gs.zeroIndexTimesAxisMPL(dwRs)
+    dwTs = io.getTimes(dwRs)
+    dwWs = io.getWatts(dwRs)
 
 
-grill = appReadings[335:388]
-oven = appReadings[61:172]
-microwave = appReadings[652:671]
-tv = appReadings[723:841]
-washingMachine = appReadings[1092:1710]
-dishWasher = appReadings[1818:2097]
-toaster = appReadings[9:29]
-
-# grill
-grRs = grill
-grRs = gs.zeroIndexTimesAxisMPL(grRs)
-grTs = io.getTimes(grRs)
-grWs = io.getWatts(grRs)
-
-# oven
-ovRs = oven
-ovRs = gs.zeroIndexTimesAxisMPL(ovRs)
-ovTs = io.getTimes(ovRs)
-ovWs = io.getWatts(ovRs)
-
-# microwave
-mwRs = microwave
-mwRs = gs.zeroIndexTimesAxisMPL(mwRs)
-mwTs = io.getTimes(mwRs)
-mwWs = io.getWatts(mwRs)
-
-# tv
-tvRs = tv
-tvRs = gs.zeroIndexTimesAxisMPL(tvRs)
-tvTs = io.getTimes(tvRs)
-tvWs = io.getWatts(tvRs)
-
-# toaster
-tsRs = toaster
-tsRs = gs.zeroIndexTimesAxisMPL(tsRs)
-tsTs = io.getTimes(tsRs)
-tsWs = io.getWatts(tsRs)
-
-# washing machine
-wmRs = washingMachine
-wmRs = gs.zeroIndexTimesAxisMPL(wmRs)
-wmTs = io.getTimes(wmRs)
-wmWs = io.getWatts(wmRs)
-
-# dish washer
-dwRs = dishWasher
-dwRs = gs.zeroIndexTimesAxisMPL(dwRs)
-dwTs = io.getTimes(dwRs)
-dwWs = io.getWatts(dwRs)
-
-def getAppFig1():
     fig = plt.figure(figsize=None)
 
     ax1 = fig.add_subplot(211)
