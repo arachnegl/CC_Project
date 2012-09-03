@@ -78,31 +78,6 @@ def zeroIndexTimesAxisMPL(readings):
 
 
 """
-grill = readings[335:388]
-oven = readings[61:172]
-microwave = readings[652:671]
-tv = readings[723:841]
-washingMachine = readings[1092:1710]
-dishWasher = readings[1818:2097]
-toaster = readings[9:29]
-"""
-
-"""
-apps = ['grill','oven','microwave',
-       'tv','washingMachine','dishWasher',
-       'toaster']
-
-for a in apps:
-    i = apps.index(a)
-    plt.subplot(231+i)
-    eval('plt.plot(' + a + ')')
-    plt.title(a)
-
-plt.plot_date(x=grillTimes,y=grillWatts,xdate=True)
-plt.show()
-"""
-
-"""
 # unneeded (for now) formatting code:
 timeFmt = mpl.dates.DateFormatter('%M:%S')  # formatting for x axis
 graph.xaxis.set_major_formatter(timeFmt)
