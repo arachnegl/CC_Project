@@ -1,33 +1,74 @@
-% A low is defined as a 8 hour period where consumption is at a minimum.
+%
+% 
+%
+% Typical usage:
+%
+% 	% yap
+%
+%	?- consult('abduction.pl')
+%	?- load_theory('day_night_worker_cc.pl')
+%
+%	?- query([fluctuations(p)],(As,_,Ns)).
+%		[facilities_used(p)]
+%	?- query([fluctuations(P)],(As,_,_)).    % person detection
+%		series of facilities_used answers: person can be p or not p
+%	?- query([day_low(p)
+%		[facilities_used(p),day_sleep(p)]
+%	?- query([day_sleep(p)],(As,_,Ns)).
+%		[facilities_used(p),day_sleep(p)]
+%	?- query([night_low(p)],(As,_,Ns)).
+%		[night_sleep(p),facilities_used(p),day_worker(p)]
+%
+%
+%	(Ctrl-d to exit)
 
-% Theory
 
-fluctuations(I) :- inhabited_by(I).
-day_low(I) :- day_worker(I).
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theory (Background Knowledge) consists of rules and facts:   %
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% A) Rules:    ( Observations :- hypotheses/explanations)
+fluctuations(I) :- facilities_used(I).
+day_low(I) :- night_worker(I).
 day_low(I) :- day_sleep(I).
-night_low(I) :- night_worker(I).
+night_low(I) :- day_worker(I).
 night_low(I) :- night_sleep(I).
+%morning_spike(I) :- breakfast(I).
+%midday_spike(I) :- lunch(I).
+%evening_spike(I) :- dinner(I).
+lunch(I) :- day_worker(I).
 
-morning_spike(I) :- prepare_food_morn(I).
-midday_spike(I) :- prepare_food_midday(I).
-evening_spike(I) :- prepare_food_dinner(I).
+% B) Facts:  (these are 'pruned' by disaggregation)
 
-lunch(I) :- stay_at_home(I).
+lunch(p).
+fluctuations(greg).
+%night_low(p).
+%fluctations(angela).
 
-% Integrity Constraints
+ %%%%%%%%%%%%%%%%%%%%%%%%%
+% Integrity Constraints   %
+ %%%%%%%%%%%%%%%%%%%%%%%%%
 
-ic :- night_worker(I),\+ day_sleep(I).
-ic :- day_worker(I),\+ night_sleep(I).
-ic :- day_worker(I), night_worker(I).
-ic :- night_worker(I),\+ stay_at_home(I).
-ic :- night_worker(I),breakfast(I),dinner(I),\+ day_sleep(I).
+ic :- night_worker(I), \+ facilities_used(I).
+ic :- day_worker(I), \+ facilities_used(I).
+ic :- lunch(I), \+ facilities_used(I).
 
+ic :- night_worker(I),lunch(I).
+ic :- day_worker(I),\+ lunch(I).
+ic :- night_worker(I),\+ day_sleep(I).   % a night worker has to sleep during the day
+ic :- day_worker(I),\+ night_sleep(I).   % a day worker has to sleep during the night
+ic :- day_worker(I), night_worker(I).    % can't be both day and night worker
+ic :- day_low(I), night_low(I).
 
-% Abducibles
+%%%%%%%%%%%%%%
+% Abducibles %
+%%%%%%%%%%%%%%
 
-abducible(inhabited_by(_)).
+abducible(facilities_used(_)).
 abducible(day_worker(_)).
 abducible(night_worker(_)).
-adbucible(stay_at_home(_)).
+abducible(night_sleep(_)).
+abducible(day_sleep(_)).
+%adbucible(stay_at_home(_)).
 
-% adbucible(day_sleep(I)).   % I don't care when they sleep in results. inBetween abducible.
