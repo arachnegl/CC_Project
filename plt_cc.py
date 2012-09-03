@@ -15,6 +15,34 @@ import timeutils_cc as tu    # for zeroIndexTimesAxisMPL
 import appldata_cc as ap      # for app graphing func
 
 
+def getConvolveFigure(convVals,readings):
+    """
+    line plot
+    """
+    idxmax = convVals.argmax()
+    
+
+    fig = plt.figure()
+
+    ax1 = fig.add_subplot(211)
+    ax1.plot(convVals,'b-')
+    ax1.axvline(idxmax,linewidth=1,color='r')
+    ax1.set_title('convolution')
+    ax1.grid(True)
+
+    idxmaxMPLtime = readings[idxmax][0]
+
+    ax2 = fig.add_subplot(212)
+    rdTs = getTimes(readings)
+    rdWs = getWatts(readings)
+    ax2.plot_date(rdTs,rdWs,fmt='b-')
+    ax2.axvline(idxmaxMPLtime,linewidth=1,color='r')
+    ax2.set_xlabel('Time')
+    ax2.set_ylabel('Watts')
+    ax2.grid(True)
+
+    return fig
+
 def getTimes(readings):
     """
     returns first column in list with 'two columns'
