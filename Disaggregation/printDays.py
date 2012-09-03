@@ -4,6 +4,8 @@ Script to print graph of days 3 at a time (for now)
 You probably only want to issue this cmd to get imgs of all files:
     filesOfAllDaysWithOver12kReadings()
 
+(any file that contains less than 12k readings is almost certainly incomplete - ie. not a full day)
+
 Typical usage:
     files = getListOfFiles(insertPath)
     days = getAllReadings(files)
@@ -38,6 +40,7 @@ def getFigureWithGraphsOf(readings):
         times = io.getTimes(readings[i])
         watts = io.getWatts(readings[i])
 
+        # graph is axis instance rtrnd by fig.add_subplot
         graph = fig.add_subplot(nmbrGraphs,1,i)
         graph.plot_date(x=times,y=watts,fmt='b-')
         graph.set_xlabel('Time')
@@ -47,6 +50,9 @@ def getFigureWithGraphsOf(readings):
         day = mdates.num2date(readings[i][0][0])
         dayName = day.strftime('%A %d %B %Y')
         graph.set_title(dayName)
+        
+        formatter = mdates.DateFormatter('%H')
+        graph.xaxis.set_major_formatter(formatter)
 
         graph.grid(True)
 
