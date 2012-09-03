@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import timeutils_cc as tu    # for zeroIndexTimesAxisMPL
 import appldata_cc as ap      # for app graphing func
 
+import numpy as np    # for smooth function
 
 def getConvolveFigure(convVals,readings):
     """
@@ -185,6 +186,74 @@ def getAppFig():
     
     fig.subplots_adjust(hspace=0.5)
     #fig.autofmt_xdate()   # erases x-axis of second graph
+    return fig
+
+def smooth(x,window_len=11,window='hanning'):
+    """smooth the data using a window with requested size.
+
+    (taken from: www.scipy.org/Cookbook/SignalSmooth)
+    """
+
+    if x.ndim != 1:
+        raise ValueError, "smooth only accepts 1 dimension arrays."
+
+    if x.size < window_len:
+        raise ValueError, "Input vector needs to be bigger than window size."
+
+
+    if window_len<3:
+        return x
+
+
+    if not window in ['flat', 'hanning', 'hamming', 'bartlett', 'blackman']:
+        raise ValueError, "Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'"
+
+
+    s=np.r_[x[window_len-1:0:-1],x,x[-1:-window_len:-1]]
+    #print(len(s))
+    if window == 'flat': #moving average
+        w=np.ones(window_len,'d')
+    else:
+        w=eval('np.'+window+'(window_len)')
+
+    y=np.convolve(w/w.sum(),s,mode='valid')
+    return y
+
+
+def getSmoothFigure(appl,title='Different Smoothing Algorithms'):
+
+    x = [0 for i in range(15)]
+    xx= [w[1] for w in appl] 
+    x = x + xx + x                  # add some 'padding' either side of data
+    x = np.array(x)
+   
+    fig = plt.figure()
+    axs = fig.add_subplot(111)
+    
+    yorg = x
+    yflt = smooth(x,5,'flat')
+    yhan = smooth(x,5,'hanning')
+    yham = smooth(x,5,'hamming')
+    ybrt = smooth(x,5,'bartlett')
+    yblk = smooth(x,5,'blackman')
+
+    org,flt,han,ham,brt,blk  = axs.plot( yorg,'b-',
+                                         yflt,'g-',
+                                         yhan,'r-',
+                                         yham,'c-',
+                                         ybrt,'m-',
+                                         yblk,'y-')
+    
+
+    axs.legend( (org,flt,han,ham,brt,blk),
+                ('original', 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'),
+                fancybox=True,
+                shadow=True)
+   
+    axs.set_ylim(0,3500)
+    axs.set_ylabel('Watts')
+    axs.set_title(title)
+
     return fig
 
 
