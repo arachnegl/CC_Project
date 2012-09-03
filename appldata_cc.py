@@ -6,9 +6,7 @@ suggested usage:
 
 """
 
-import cc_io as io   # for getTimes and getWatts
-import graphScript as gs  # for zeroIndexTimesAxisMPL
-import matplotlib.pyplot as plt
+import io_cc as io   # for getTimes and getWatts
 
 
 listOfApp = ['grill','oven','microwave',
