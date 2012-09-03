@@ -7,49 +7,64 @@ cmds:
 
 """
 
-import getAppData as ap  # for appliance data
 import cc_io as io   # for getTimes and getWatts
 import graphScript as gs  # for zeroIndexTimesAxisMPL
 import matplotlib.pyplot as plt
 
+
+listOfApp = ['grill','oven','microwave',
+       'tv','washingMachine','dishWasher',
+       'toaster']
+
+appReadings = io.getReadingsFromFile('appliance_data_clean.csv')
+
+
+grill = appReadings[335:388]
+oven = appReadings[61:172]
+microwave = appReadings[652:671]
+tv = appReadings[723:841]
+washingMachine = appReadings[1092:1710]
+dishWasher = appReadings[1818:2097]
+toaster = appReadings[9:29]
+
 # grill
-grRs = ap.grill
+grRs = grill
 grRs = gs.zeroIndexTimesAxisMPL(grRs)
 grTs = io.getTimes(grRs)
 grWs = io.getWatts(grRs)
 
 # oven
-ovRs = ap.oven
+ovRs = oven
 ovRs = gs.zeroIndexTimesAxisMPL(ovRs)
 ovTs = io.getTimes(ovRs)
 ovWs = io.getWatts(ovRs)
 
 # microwave
-mwRs = ap.microwave
+mwRs = microwave
 mwRs = gs.zeroIndexTimesAxisMPL(mwRs)
 mwTs = io.getTimes(mwRs)
 mwWs = io.getWatts(mwRs)
 
 # tv
-tvRs = ap.tv
+tvRs = tv
 tvRs = gs.zeroIndexTimesAxisMPL(tvRs)
 tvTs = io.getTimes(tvRs)
 tvWs = io.getWatts(tvRs)
 
 # toaster
-tsRs = ap.toaster
+tsRs = toaster
 tsRs = gs.zeroIndexTimesAxisMPL(tsRs)
 tsTs = io.getTimes(tsRs)
 tsWs = io.getWatts(tsRs)
 
 # washing machine
-wmRs = ap.washingMachine
+wmRs = washingMachine
 wmRs = gs.zeroIndexTimesAxisMPL(wmRs)
 wmTs = io.getTimes(wmRs)
 wmWs = io.getWatts(wmRs)
 
 # dish washer
-dwRs = ap.dishWasher
+dwRs = dishWasher
 dwRs = gs.zeroIndexTimesAxisMPL(dwRs)
 dwTs = io.getTimes(dwRs)
 dwWs = io.getWatts(dwRs)
@@ -91,5 +106,5 @@ def getAppFig1():
                 shadow=True)
     
     fig.subplots_adjust(hspace=0.5)
-    #fig.autofmt_xdate()
+    #fig.autofmt_xdate()   # erases x-axis of second graph
     return fig
