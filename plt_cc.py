@@ -71,11 +71,14 @@ def getWatts(readings):
 
 
 
-def getTimeWattFigure(readings,name='Time Series Plot Of Watts'):
+def getTimeWattFigure(readings,name='Time Series Plot Of Watts',zeroed=False):
     """
     Returns straightforward time series of watt values
     
     """
+    if zeroed:
+        readings = tu.zeroIndexTimesAxisMPL(readings)
+
     times = getTimes(readings)
     watts = getWatts(readings)
 
@@ -93,7 +96,6 @@ def getTimeWattFigure(readings,name='Time Series Plot Of Watts'):
     fig.autofmt_xdate() #  bottom=0.18)    # adjust for date labels
     # fig.subplots_adjust(left=0.18)
     return fig
-
 
 
 def getAppFig():
