@@ -2,6 +2,7 @@
 This module contains various characteristics of predicates and related appliances
 
 
+
 """
 
 import datetime as dt
@@ -20,11 +21,12 @@ def getDate(aMPLDateTimeFloat):
     date = dtObj.date()
     return date
 
-# lunch -> oven; grill; toaster  @time 12:00-14:00
 
 def getTimeSlice(begHr,endHr,readings):
     """
     returns list of values between beg and end in readings
+
+    need to implement case for if night reading detected (ie over midnight)
     """
     todayDate = getDate(readings[0][0])  # returns datetime object with date
     todayDateTime = dt.datetime.combine(todayDate,dt.time(0,0,0))
@@ -53,7 +55,7 @@ def isGrillDetected(readings):
     returns True if grill is found, False otherwise
     """
     # (readings are floats so should work with conv)
-    #check intensity
+    # hist analysis to check existence of intensity
 
     #check convolve
     conv = np.convolve(grill,readings,'valid')
@@ -64,26 +66,57 @@ def isGrillDetected(readings):
         return False
 
 
-def isLunch(readings):
+def isLunch(readings,begHr=12,endHr=13):
     """
-    returns True or False if detects either an oven, grill or toaster
+    returns True or False if detects either an grill or toaster
 
+    lunch -> oven; grill; toaster  @time 12:00-14:00
     """
-    lunchPeriod = getTimeSlice(12,14,readings)
-    if containsTimeSliceAppliance(lunchPeriod,grill):
+    # no req fr hist analysis, individ appliances need to do it
+    lunchPeriod = getTimeSlice(begHr,endHr,readings)
+
+    if isGrillDetected(lunchPeriod):
         return True
-    
+    if isToasterDetected(lunchPeriod):
+        return True
+    return False
 
-
-# breakfast -> toaster           @time 7:00-9:00
-
-# dinner -> oven; grill          @time 19:00-21:00
 
 # fluctuations -> variations (more than one peak in histogram)
 
+
+
+
 # day_low ->  small variations   @time 9:00-17:00
+def isDayLow(readings,begHr=9,endHr=17):
+    """
+    checks if a low can be determined during day
+    """
+    #hist analysis to determine low vals
+    dayLowPeriod=getTimeSlice(begHr,endHr,readings)
+    if isLowDetected(dayLowPeriod):
+        return True
+    else:
+        return False
+
+
 
 # night_low -> small variations  @time 24:00-8:00
+def isNightLow(readings,begHr=23,endHr=8):
+    """
+    checks if a low can be determined at night
+
+    (Awaits night case impl)
+    """
+    #hist analysis to determine low vals
+
+    nightLowPeriod=getTimeSlice(begHr,endHr,readings)
+    if isLowDetected(nightLowPeriod):
+        return True
+    else:
+        return False
+
+
 
 
 import doctest
