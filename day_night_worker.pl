@@ -8,14 +8,22 @@
 %	?- consult('abduction.pl')
 %	?- load_theory('day_night_worker_cc.pl')
 %
-%	?- query([fluctuations(p)],(As,_,Ns)).
-%		[facilities_used(p)]
-%	?- query([fluctuations(P)],(As,_,_)).    % person detection
-%		series of facilities_used answers: person can be p or not p
-%	?- query([day_low(p)
+%	?- query([fluctuations(p)],(As,_,Ns)).   % Observed: fluctuations by p, What can be abduced?
+%		[facilities_used(p)]             % equiv to household lived in
+%
+%	?- query([fluctuations(P)],(As,_,_)).    % Oberved: fluctuations by Someone
+%		series of facilities_used answers: person can be p, or not p, or greg
+%
+%	?- query([day_low(p)...
 %		[facilities_used(p),day_sleep(p)]
+%
+%	?- query([day_low(P)...                  % Identifies different possibilities (living arrangements)
+%		[facilities_used(p),day_sleep(P),facilities_used(P),night_worker(P)],=/=(P,p);
+%		[facilities_used(p),day_sleep(P)]
+%
 %	?- query([day_sleep(p)],(As,_,Ns)).
 %		[facilities_used(p),day_sleep(p)]
+%
 %	?- query([night_low(p)],(As,_,Ns)).
 %		[night_sleep(p),facilities_used(p),day_worker(p)]
 %
