@@ -119,6 +119,33 @@ def getAnalysisTimeWattFigure(readings,name):
     axs.set_ylim(0,2300)
     return fig
 
+def getHistFig(readings,name):
+    """
+    returns figure with two axes. 
+    The original reading and the corresponding histogram.
+    
+    """
+    hdata = getWatts(readings)
+
+    # original plot
+    fig = plt.figure()
+    ax1 = fig.add_subplot(211)
+    times = getTimes(readings)
+    watts = getWatts(readings)
+    ax1.plot_date(times,watts,fmt='b-')
+    ax1.set_title('Original plot for ' + name)
+    ax1.set_ylabel('Watts')
+    ax1.grid(True)
+
+    # histogram plot
+    ax2 = fig.add_subplot(212)
+    ax2.hist(hdata,bins=40,facecolor='yellow',edgecolor='gray')
+    ax2.set_ylabel('Watt Totals')
+    ax2.set_xlabel('Watt Intensity')
+    ax2.set_title('Histogram for ' + name)
+
+    return fig
+
 
 def getAppFig():
     """
