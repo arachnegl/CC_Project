@@ -40,7 +40,7 @@ def containsFact(aStr):
     True
 
     """
-    if re.match(PREDICATE_RE,aStr):
+    if re.match(PREDICATE_RE,aStr):    # NB re.match only rtrns if at beg of str (so no need for ^)
         return True
     else :
         return False
