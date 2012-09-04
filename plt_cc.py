@@ -114,7 +114,7 @@ def getAnalysisTimeWattFigure(readings,name):
     axs.hlines(minApp,readings[pdng][0],readings[-pdng][0],color='r')
 
     xs = getTimes(readings)
-    axs.fill_between(xs,appWatts,color='b')
+    axs.fill_between(xs,appWatts,facecolor='0.8')
 
     axs.set_ylim(0,2300)
     return fig
