@@ -97,6 +97,28 @@ def getTimeWattFigure(readings,name='Time Series Plot Of Watts',zeroed=False):
     # fig.subplots_adjust(left=0.18)
     return fig
 
+def getAnalysisTimeWattFigure(readings,name):
+
+    pdng = 2  # padding value
+
+    readings = tu.zeroIndexTimesAxisMPL(readings)
+    fig = getTimeWattFigure(readings,name)
+
+    # additions:
+    axs = fig.get_axes()[0]
+    appWatts = getWatts(readings)
+    maxApp = max(appWatts[pdng:-pdng])
+    minApp = min(appWatts[pdng:-pdng])
+
+    axs.hlines(maxApp,readings[pdng][0],readings[-pdng][0],color='r')
+    axs.hlines(minApp,readings[pdng][0],readings[-pdng][0],color='r')
+
+    xs = getTimes(readings)
+    axs.fill_between(xs,appWatts,color='b')
+
+    axs.set_ylim(0,2300)
+    return fig
+
 
 def getAppFig():
     """
