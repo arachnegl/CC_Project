@@ -6,7 +6,7 @@ suggested usage:
 
 """
 
-import io_cc as io   # for getTimes and getWatts
+import io_cc as io   # for appReadings
 
 
 listOfApp = ['grill','oven','microwave',
@@ -22,4 +22,4 @@ microwave = appReadings[652:671]
 tv = appReadings[723:841]
 washingMachine = appReadings[1092:1710]
 dishWasher = appReadings[1818:2097]
-toaster = appReadings[9:29]
+toaster = appReadings[9:31]
