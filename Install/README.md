@@ -17,4 +17,4 @@ Here are some suggestions:
             % sudo apt-get install python-matplotlib python-numpy ipython
 
 *   If you can't or don't want to do a system wide installation using official repositories then virtualenv provides a suitable up to date environment in your user directory. See the python4maths.sh script provided. 
-*   Virtualbox can be used in addition or in combination with the above options., you can also use virtualbox to fully isolate your development environment. This is what I have used.
+*   Virtualbox can be used to fully isolate your development environment. It can be used in combination with the above options. I used virtualboxSetupScript.py script on my macbook pro.
