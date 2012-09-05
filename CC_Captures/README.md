@@ -26,6 +26,7 @@ See [official current cost xml specification](www.currentcost.com/cc128/xml.htm)
 The capture script happily ran on Ubuntu 12.04 running in a virtual machine on my macbook pro. My implementation uses regular expressions to parse the message from the serial port.
 
 To run simply type:
+
             $ python capture_watts.py
 
 Also see [another version](https://github.com/JackKelly/currentCostCosmTX) that uses xml parsing and offers the option of recording data to cosm website.
