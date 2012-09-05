@@ -1,12 +1,19 @@
 This folder contains:
 
-*     the capture script
-*     the raw data
-*     data that has been sanitized
+*     capture_watts.py - script for capturing watt readings from smart meter
+*     cc_file_tidy_utils.py - script for sanitizing and homogenizing data produced by various capture_watts.py versions
+*     rawCCdata folder contains the result of various iterations of capture_watts.py
+*     cleanCCdata folder contains result of cc_file_tidy_utils.py as applied to rawCCdata
 
-You can find all the scripts that did the actual work in utilities
+The capture script happily ran on Ubuntu 12.04 running in a virtual machine on my macbook pro. My implementation uses regular expressions to parse the message from the serial port.
 
-The data transmitted from my current cost meter has this format:
+To run simply type:
+
+            $ python capture_watts.py
+
+The script creates a file and then begins to poll a usb serial port buffer for messages every few seconds.
+
+The message received is this format:
 
       <msg>  
          <src>CC128-v0.11</src>        source & software version
@@ -21,13 +28,21 @@ The data transmitted from my current cost meter has this format:
          </ch1>
       </msg>    
 
-See [official current cost xml specification](www.currentcost.com/cc128/xml.htm) for the general case and more information.
+(See [official current cost xml specification](www.currentcost.com/cc128/xml.htm) for the general case and more information.)
 
-The capture script happily ran on Ubuntu 12.04 running in a virtual machine on my macbook pro. My implementation uses regular expressions to parse the message from the serial port.
+The script parses the message using regular expressions and extracts a watt reading. It then takes the local timestamp from the users computer and records both into a csv file.
 
-To run simply type:
+Sample output:
 
-            $ python capture_watts.py
+      2012-08-09T10:28:06,84
+      2012-08-09T10:28:12,37
+      2012-08-09T10:28:18,36
+      2012-08-09T10:28:30,33
+      2012-08-09T10:28:36,33
+
+
+
+
+
 
 Also see [another version](https://github.com/JackKelly/currentCostCosmTX) that uses xml parsing and offers the option of recording data to cosm website.
-
