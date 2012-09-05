@@ -1,8 +1,8 @@
 This folder contains:
 
-_the capture script
-_the raw data
-_data that has been sanitized
+*     the capture script
+*     the raw data
+*     data that has been sanitized
 
 You can find all the scripts that did the actual work in utilities
 
