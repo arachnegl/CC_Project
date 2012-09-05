@@ -4,6 +4,7 @@ This folder contains:
 *     cc_file_tidy_utils.py - script for sanitizing and homogenizing data produced by various capture_watts.py versions
 *     rawCCdata folder contains the result of various iterations of capture_watts.py
 *     cleanCCdata folder contains result of cc_file_tidy_utils.py as applied to rawCCdata
+*     appliance_study_data.csv contains isolated readings of most major appliances in my home
 
 The capture script happily ran on Ubuntu 12.04 running in a virtual machine on my macbook pro. My implementation uses regular expressions to parse the message from the serial port.
 
