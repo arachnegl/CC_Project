@@ -11,7 +11,7 @@ The data transmitted from my current cost meter has this format:
       <msg>  
          <src>CC128-v0.11</src>        source & software version
          <dsb>00089</dsb>              days since birth 
-         <time>13:02:39</time>         Time reading needs user configuring for this reason I use computer timestamp
+         <time>13:02:39</time>         Time reading - needs user config so I use computer timestamp
          <tmpr>18.7</tmpr>       
          <sensor>1</sensor>            Appliance Number as displayed
          <id>01234</id>                radio ID received from the sensor
