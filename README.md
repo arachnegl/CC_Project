@@ -6,6 +6,7 @@ I explore energy usage using disaggregation and abductive logic.
 ## Installation
 
 You can download this project in full by typing:
+
     $ git clone https://github.com/arachnegl/CC_Project.git
 
 See the Install folder for requirements and general suggestions on how to setup a suitable environment.
