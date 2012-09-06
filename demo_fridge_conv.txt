@@ -1,0 +1,33 @@
+"""
+This text represents a demo
+
+You can run me by typing %run myfilename
+
+Expect four figures to pop up
+
+"""
+day = io.getReadingsFromFile('CC_Captures/cleanCCdata/2012-07-24clean_cc.csv')
+night = ls.getTimeSlice(1,8,day)   # capture the night (time between 1:00 and 8:00)
+grph = pc.getTimeWattFigure(night,'The Early Hours of 24/07/2012')
+grph.show()
+
+# Now I want a fridge device signature
+# I am going to capture the first one. 
+# I guess the start location, could just as well have started form zero
+loc = applianceEventDetection(39,80,night)
+fridge = night[loc[0]:loc[1]]
+grph = pc.getTimeWattFigure(fridge,'Fridge Version 1')
+grph.show()
+
+# Hmmm, I don't like this one. It has interference. I will get the next one
+
+# Next fridge stamp:
+loc2 = applianceEventDetection(130,80,night)
+fridge2 = night[loc2[0]:loc2[1]+2]
+grph = pc.getTimeWattFigure(fridge2,'Fridge Version 2')
+grph.show()
+
+# Now I am ready to effect a convolve study:
+conv = ls.getConvolve(fridge2,night)
+grph = pc.getConvolveFigure(conv,night)
+grph.show()
