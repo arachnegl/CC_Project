@@ -14,7 +14,7 @@ grph.show()
 # Now I want a fridge device signature
 # I am going to capture the first one. 
 # I guess the start location, could just as well have started form zero
-loc = applianceEventDetection(39,80,night)
+loc = ed.applianceEventDetection(39,80,night)
 fridge = night[loc[0]:loc[1]]
 grph = pc.getTimeWattFigure(fridge,'Fridge Version 1')
 grph.show()
@@ -22,7 +22,7 @@ grph.show()
 # Hmmm, I don't like this one. It has interference. I will get the next one
 
 # Next fridge stamp:
-loc2 = applianceEventDetection(130,80,night)
+loc2 = ed.applianceEventDetection(130,80,night)
 fridge2 = night[loc2[0]:loc2[1]+2]
 grph = pc.getTimeWattFigure(fridge2,'Fridge Version 2')
 grph.show()

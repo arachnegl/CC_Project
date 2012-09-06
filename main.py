@@ -9,6 +9,7 @@ import logictosignals_cc as ls
 import appldata_cc as ad
 import timeutils_cc as tu
 import abdparser_cc as abp
+import eventdetection_cc as ed
 
 import numpy as np
 import matplotlib.pyplot as plt
