@@ -29,4 +29,3 @@ Utility files:
 * io_cc.py               - handles all the input and file handling
 * plt_cc.py              - all plotting functions
 * timeutils_cc.py        - time converting utilities
-* synth24Hours_cc.py     - convenience functions for generating test signals
