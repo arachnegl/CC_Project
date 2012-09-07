@@ -27,7 +27,7 @@ gr_cnv = ls.getConvolve(ad.grill,rs)
 gr_cnv_fig = pc.getConvolveFigure(gr_cnv,rs)
 
 # Hist graph   ( 1 step)
-appldatahist = pc.getHistFig(ad.appReadings,'Appliance Readings')
+appldatahist = pc.getHistFig(ad.appReadings,binsN=1000,name='Appliance Readings')
 
 # Abduction
 # get predicates:
