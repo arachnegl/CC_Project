@@ -8,6 +8,8 @@ This module contains various characteristics of predicates and related appliance
 import datetime as dt
 import matplotlib.dates as mdates
 import numpy as np
+import plt_cc as pc
+
 
 def getDate(aMPLDateTimeFloat):
     """
@@ -54,13 +56,20 @@ def isGrillDetected(readings):
     """
     returns True if grill is found, False otherwise
     """
-    # (readings are floats so should work with conv)
+
     # hist analysis to check existence of intensity
+    histFound = False
+    watts = pc.getWatts(readings)
+    hist = np.histogram(watts,32,(0,3200)) # grill expected around early 3ks
+    if (hist[0][31] + hist[0][30]) > 10:  # at least 10*6 = 1 min
+        histFound = True
+    else:
+        return false
 
     #check convolve
     conv = np.convolve(grill,readings,'valid')
     detected = conv.argmax()
-    if detected > 1000 : 
+    if detected > 1000 and histFound: 
         return True
     else:
         return False

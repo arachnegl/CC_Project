@@ -27,7 +27,7 @@ import matplotlib.dates as mdates
 
 import timeutils_cc as tu    # for zeroIndexTimesAxisMPL
 import appldata_cc as ap      # for app graphing func
-import cc_io as io            # for filesOfAllDay... funcs
+import io_cc as io            # for filesOfAllDay... funcs
 
 import numpy as np    # for smooth function
 
