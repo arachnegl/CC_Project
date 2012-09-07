@@ -24,7 +24,7 @@ Files that bridge the logic programming world and python:
 Disaggregation files:
 * hist_cc.py
 * logictosignals_cc.py
-* eventDetection_cc.py
+* eventdetection_cc.py
 
 Utility files:
 * io_cc.py               - handles all the input and file handling
