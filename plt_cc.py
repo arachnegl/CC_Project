@@ -6,6 +6,19 @@ Usage:
     fig.show()
     fig.savefig('nameOfFile')
 
+
+Print graph of days 3 at a time (for now)
+
+You probably only want to issue this cmd to get imgs of all files:
+    filesOfAllDaysWithOver12kReadings()
+
+(any file that contains less than 12k readings is almost certainly incomplete - ie. not a full day)
+
+Typical usage:
+    files = getListOfFiles(insertPath)
+    days = getAllReadings(files)
+    threeDays = getFigureWithGraphsOf(days[:3])
+
 """
 
 
@@ -14,6 +27,7 @@ import matplotlib.dates as mdates
 
 import timeutils_cc as tu    # for zeroIndexTimesAxisMPL
 import appldata_cc as ap      # for app graphing func
+import cc_io as io            # for filesOfAllDay... funcs
 
 import numpy as np    # for smooth function
 
@@ -126,7 +140,7 @@ def getAnalysisTimeWattFigure(readings,name):
     axs.set_ylim(0,2300)
     return fig
 
-def getHistFig(readings,name):
+def getHistFig(readings,binsN,name='Appliance'):
     """
     returns figure with two axes. 
     The original reading and the corresponding histogram.
@@ -143,10 +157,15 @@ def getHistFig(readings,name):
     ax1.set_title('Original plot for ' + name)
     ax1.set_ylabel('Watts')
     ax1.grid(True)
+    
+    hmfmt = mdates.DateFormatter('%H:%M')
+    ax1.xaxis.set_major_locator(mdates.HourLocator())
+    ax1.xaxis.set_major_formatter(hmfmt)
 
     # histogram plot
     ax2 = fig.add_subplot(212)
-    ax2.hist(hdata,bins=40,facecolor='yellow',edgecolor='gray')
+    nmbr = binsN
+    ax2.hist(hdata,bins=nmbr,facecolor='yellow',edgecolor='gray')
     ax2.set_ylabel('Watt Totals')
     ax2.set_xlabel('Watt Intensity')
     ax2.set_title('Histogram for ' + name)
@@ -225,6 +244,11 @@ def getAppFig():
                 loc=('upper right'),
                 fancybox=True,
                 shadow=True)
+
+    hmfmt = mdates.DateFormatter('%H:%M')
+    ax1.xaxis.set_major_locator(mdates.HourLocator())
+    ax1.xaxis.set_major_formatter(hmfmt)
+
     
     ax2 = fig.add_subplot(212)
     ax2.set_title('Periodic-like  appliance signatures')
@@ -241,7 +265,11 @@ def getAppFig():
                 loc=('upper right'),
                 fancybox=True,
                 shadow=True)
-    
+
+
+    ax2.xaxis.set_major_locator(mdates.HourLocator())
+    ax2.xaxis.set_major_formatter(hmfmt)
+
     fig.subplots_adjust(hspace=0.5)
     #fig.autofmt_xdate()   # erases x-axis of second graph
     return fig
@@ -324,4 +352,55 @@ minLoc = mpl.dates.MinuteLocator()
 secLoc = mpl.dates.SecondLocator(interval=6)
 graph.xaxis.set_major_locator(minLoc)
 graph.xaxis.set_minor_locator(secLoc)
+
+    fig.subplots_adjust(hspace=0.5)
 """
+
+def getFigureWithGraphsOf(readings):
+    fig = plt.figure()
+
+    nmbrGraphs = len(readings)
+
+    for i in range(nmbrGraphs):
+        times = io.getTimes(readings[i])
+        watts = io.getWatts(readings[i])
+
+        # graph is axis instance rtrnd by fig.add_subplot
+        graph = fig.add_subplot(nmbrGraphs,1,i)
+        graph.plot_date(x=times,y=watts,fmt='b-')
+        graph.set_xlabel('Time')
+        graph.set_ylabel('Watts')
+ 
+        # Naming - use date of first reading for name:
+        day = mdates.num2date(readings[i][0][0])
+        dayName = day.strftime('%A %d %B %Y')
+        graph.set_title(dayName)
+        
+        formatter = mdates.DateFormatter('%H')
+        graph.xaxis.set_major_formatter(formatter)
+
+        graph.grid(True)
+
+    #fig.autofmt_xdate()
+
+    return fig
+
+def filesOfAllDayFigures(pathToFiles='../CC_Captures/cleanCCdata/'):
+    files = io.getListOfFiles(pathToFiles)
+    days = io.getAllReadings(files)
+
+    # I should have 24 files, discarding partial 1st and last = 22    (7*3 =21) 7 graphs!!
+
+    for i in [1,4,7,10,13,16,19]:
+        graph = getFigureWithGraphsOf(days[i:i+3])
+        graph.savefig('pics/fig' + str(i))
+
+def filesOfAllDaysWithOver12kReadings(pathToFiles='../CC_Captures/cleanCCdata/'):
+    files = io.getListOfFiles(pathToFiles)
+    days = io.getAllReadings(files)
+
+    days = [d for d in days if len(d) > 12000]
+
+    for i in [1,4,7,10,13,16]:
+        graph = getFigureWithGraphsOf(days[i:i+3])
+        graph.savefig('pics/fig' + str(i))

@@ -9,6 +9,7 @@ you probably want to use getReadingsFromFile(yourFile).
 
 import numpy as np
 import re
+import os
 
 import timeutils_cc as cct
 
@@ -70,6 +71,21 @@ def getReadingsFromFile(ccFile):
     readings = clean(readings)
     readings = cct.convertStrDateTimesToMPLDateTimes(readings)
     return readings
+
+
+
+def getListOfFiles(path):
+    fNames = os.listdir(path)
+    fNames = sorted(fNames)
+    fNames = [path + fn for fn in fNames]
+    return fNames
+
+def getAllReadings(fList):
+    allReadings = []
+    for f in fList:
+        allReadings.append(io.getReadingsFromFile(f))
+
+    return allReadings
 
 
 import doctest
